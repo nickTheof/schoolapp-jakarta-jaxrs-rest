@@ -1,0 +1,22 @@
+package gr.aueb.cf.schoolapp.core.services;
+
+import gr.aueb.cf.schoolapp.dto.ResponseMessageDTO;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
+
+@Provider
+public class AppNotAuthorizedExceptionMapper implements ExceptionMapper<NotAuthorizedException> {
+    @Override
+    public Response toResponse(NotAuthorizedException e) {
+        Response.Status status = Response.Status.UNAUTHORIZED;
+
+        return Response
+                .status(status)
+                .entity(new ResponseMessageDTO("UserNotAuthorized", e.getMessage()))
+                .type(MediaType.APPLICATION_JSON_TYPE)
+                .build();
+    }
+}
