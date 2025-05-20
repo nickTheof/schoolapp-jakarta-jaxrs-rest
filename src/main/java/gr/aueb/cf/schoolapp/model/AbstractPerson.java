@@ -14,10 +14,10 @@ public abstract class AbstractPerson extends AbstractEntity{
     @Column(nullable = false, unique = true, updatable = false)
     private String vat;
 
-    @Column(nullable = false)
+    @Column(name = "father_name", nullable = false)
     private String fatherName;
 
-    @Column(nullable = false)
+    @Column(name = "phone_number", nullable = false)
     private String phoneNum;
 
     @Column(nullable = false, unique = true)
@@ -29,7 +29,7 @@ public abstract class AbstractPerson extends AbstractEntity{
     @Column(nullable = false)
     private String street;
 
-    @Column(nullable = false)
+    @Column(name = "street_number", nullable = false)
     private String streetNum;
 
 }

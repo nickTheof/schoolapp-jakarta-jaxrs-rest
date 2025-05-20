@@ -26,7 +26,7 @@ public class User extends AbstractEntity implements Principal, IdentifiableEntit
     private String lastname;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -40,6 +40,6 @@ public class User extends AbstractEntity implements Principal, IdentifiableEntit
 
     @Override
     public String getName() {
-        return email;
+        return username;
     }
 }
