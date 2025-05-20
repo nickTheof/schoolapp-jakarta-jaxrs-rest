@@ -13,9 +13,9 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @MappedSuperclass
 public abstract class AbstractEntity {
+
 
     @Column(unique = true, updatable = false, nullable = false)
     private String uuid = UUID.randomUUID().toString();

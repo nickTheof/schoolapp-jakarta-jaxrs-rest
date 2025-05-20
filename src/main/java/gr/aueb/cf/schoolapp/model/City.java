@@ -11,7 +11,6 @@ import java.util.Set;
 @Table(name = "cities")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class City extends AbstractEntity implements IdentifiableEntity{

@@ -6,7 +6,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public abstract class PersonFiltersDTO {
     private String firstname;
     private String lastname;

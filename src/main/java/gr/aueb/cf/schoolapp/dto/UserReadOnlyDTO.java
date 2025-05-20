@@ -12,6 +12,8 @@ import lombok.Setter;
 public class UserReadOnlyDTO {
     private Long id;
     private String username;
+    private String firstname;
+    private String lastname;
     private String password;
     private String role;
 }

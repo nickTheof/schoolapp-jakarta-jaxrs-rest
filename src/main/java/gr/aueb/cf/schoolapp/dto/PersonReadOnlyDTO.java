@@ -1,5 +1,6 @@
 package gr.aueb.cf.schoolapp.dto;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -7,7 +8,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public abstract class PersonReadOnlyDTO {
     private Long id;
     private String uuid;
@@ -16,11 +16,6 @@ public abstract class PersonReadOnlyDTO {
     private String firstname;
     private String lastname;
     private String vat;
-    private String fatherName;
-    private String phoneNum;
     private String email;
-    private String zipcode;
-    private String street;
-    private String streetNum;
     private Integer city_id;
 }

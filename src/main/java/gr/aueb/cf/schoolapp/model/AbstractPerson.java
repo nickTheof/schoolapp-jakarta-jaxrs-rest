@@ -2,9 +2,24 @@ package gr.aueb.cf.schoolapp.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import lombok.*;
 
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 public abstract class AbstractPerson extends AbstractEntity{
+    public AbstractPerson(String firstname, String lastname, String vat, String email, String uuid, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(uuid, createdAt, updatedAt);
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.vat = vat;
+        this.email = email;
+    }
+
     @Column(nullable = false)
     private String firstname;
 
@@ -14,22 +29,9 @@ public abstract class AbstractPerson extends AbstractEntity{
     @Column(nullable = false, unique = true, updatable = false)
     private String vat;
 
-    @Column(name = "father_name", nullable = false)
-    private String fatherName;
-
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNum;
-
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String zipcode;
 
-    @Column(nullable = false)
-    private String street;
-
-    @Column(name = "street_number", nullable = false)
-    private String streetNum;
 
 }

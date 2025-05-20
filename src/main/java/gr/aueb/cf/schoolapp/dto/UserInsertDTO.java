@@ -1,8 +1,6 @@
 package gr.aueb.cf.schoolapp.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +14,14 @@ public class UserInsertDTO {
 
     @Email(message = "Invalid username")
     private String username;
+
+    @NotNull(message = "Το όνομα είναι υποχρεωτικό πεδίο.")
+    @Size(min = 2, max = 255, message = "Το όνομα πρέπει να είναι μεταξύ 2-255 χαρακτήρων.")
+    private String firstname;
+
+    @NotNull(message = "Το επώνυμο είναι υποχρεωτικό πεδίο.")
+    @Size(min = 2, max = 255, message = "Το επώνυμο πρέπει να είναι μεταξύ 2-255 χαρακτήρων.")
+    private String lastname;
 
     // Coding!25
     @Pattern(regexp = "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\\d)(?=.*?[@#$!%&*]).{8,}$",
