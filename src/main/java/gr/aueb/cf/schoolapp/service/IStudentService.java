@@ -15,9 +15,9 @@ public interface IStudentService {
     List<StudentReadOnlyDTO> getStudentsByCriteria(Map<String, Object> criteria);
     List<StudentReadOnlyDTO> getStudentsByCriteriaPaginated(Map<String, Object> criteria, Integer page, Integer size);
     long countStudentsByCriteria(Map<String, Object> criteria);
-    StudentReadOnlyDTO insertStudent(StudentInsertDTO insertDTO) throws EntityAlreadyExistsException, EntityInvalidArgumentException;
-    StudentReadOnlyDTO updateStudent(StudentUpdateDTO updateDTO) throws EntityNotFoundException, EntityInvalidArgumentException;
-    void deleteStudent(Long id);
-    void deleteStudent(String uuid);
+    StudentReadOnlyDTO insertStudent(StudentInsertDTO insertDTO) throws EntityAlreadyExistsException, EntityNotFoundException, EntityInvalidArgumentException;
+    StudentReadOnlyDTO updateStudent(StudentUpdateDTO updateDTO) throws EntityNotFoundException,EntityAlreadyExistsException, EntityInvalidArgumentException;
+    void deleteStudent(Long id) throws EntityNotFoundException;;
+    void deleteStudent(String uuid) throws EntityNotFoundException;;
 }
 

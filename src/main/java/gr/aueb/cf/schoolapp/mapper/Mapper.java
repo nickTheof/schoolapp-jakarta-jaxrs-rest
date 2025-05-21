@@ -2,10 +2,7 @@ package gr.aueb.cf.schoolapp.mapper;
 
 import gr.aueb.cf.schoolapp.core.enums.Role;
 import gr.aueb.cf.schoolapp.dto.*;
-import gr.aueb.cf.schoolapp.model.AbstractPerson;
-import gr.aueb.cf.schoolapp.model.City;
-import gr.aueb.cf.schoolapp.model.Teacher;
-import gr.aueb.cf.schoolapp.model.User;
+import gr.aueb.cf.schoolapp.model.*;
 import gr.aueb.cf.schoolapp.security.SecUtil;
 
 import java.util.HashMap;
@@ -36,7 +33,38 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
+    public static Student mapToStudent(StudentInsertDTO dto, City city) {
+        return new Student(dto.getFirstname(), dto.getLastname(), dto.getVat(), dto.getEmail(), null, null, null, null, city);
+    }
+
+    public static Student mapToStudent(StudentUpdateDTO dto, City city) {
+        return new Student(dto.getFirstname(), dto.getLastname(), dto.getVat(), dto.getEmail(), null, null, null, dto.getId(), city);
+    }
+
+    public static StudentReadOnlyDTO mapToStudentReadOnlyDTO(Student student) {
+        return new StudentReadOnlyDTO(student.getId(), student.getUuid(), student.getCreatedAt(), student.getUpdatedAt(), student.getFirstname(), student.getLastname(), student.getVat(), student.getEmail(), student.getCity().getId());
+    }
+
+    public static List<StudentReadOnlyDTO> studentsToReadOnlyDTOs(List<Student> students) {
+        return students.stream()
+                .map(Mapper::mapToStudentReadOnlyDTO)
+                .collect(Collectors.toList());
+    }
+
     public static Map<String , Object> mapToCriteria(TeacherFiltersDTO filtersDTO) {
+        Map<String , Object> filters = new HashMap<>();
+
+        if (filtersDTO.getFirstname() != null && !filtersDTO.getFirstname().isEmpty()) {
+            filters.put("firstname", filtersDTO.getFirstname());
+        }
+
+        if (filtersDTO.getLastname() != null && !filtersDTO.getLastname().isEmpty()) {
+            filters.put("lastname", filtersDTO.getLastname());
+        }
+        return filters;
+    }
+
+    public static Map<String , Object> mapToCriteria(StudentFiltersDTO filtersDTO) {
         Map<String , Object> filters = new HashMap<>();
 
         if (filtersDTO.getFirstname() != null && !filtersDTO.getFirstname().isEmpty()) {
