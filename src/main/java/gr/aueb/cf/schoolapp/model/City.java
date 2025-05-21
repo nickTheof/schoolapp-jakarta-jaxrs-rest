@@ -3,6 +3,7 @@ package gr.aueb.cf.schoolapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -60,5 +61,11 @@ public class City extends AbstractEntity implements IdentifiableEntity{
         if (student == null || students.isEmpty()) return;
         students.remove(student);
         student.setCity(null);
+    }
+
+    public City(Integer id, String name, String uuid, LocalDateTime createdAt, LocalDateTime updatedAt ) {
+        super(uuid, createdAt, updatedAt);
+        this.id = id;
+        this.name = name;
     }
 }

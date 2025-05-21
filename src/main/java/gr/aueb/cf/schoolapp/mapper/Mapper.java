@@ -49,6 +49,27 @@ public class Mapper {
         return filters;
     }
 
+    public static City mapToCity(CityReadOnlyDTO readOnlyDTO) {
+        return new City(readOnlyDTO.id(), readOnlyDTO.name(), readOnlyDTO.uuid(), readOnlyDTO.createdAt(), readOnlyDTO.updatedAt());
+    }
+
+    public static City mapToCity(CityInsertDTO insertDTO) {
+        return new City(null, insertDTO.name(), null, null, null);
+    }
+
+    public static City mapToCity(CityUpdateDTO updateDTO) {
+        return new City(updateDTO.id(), updateDTO.name(), null, null, null);
+    }
+
+
+    public static CityReadOnlyDTO mapToCityReadOnlyDTO(City city) {
+        return new CityReadOnlyDTO(city.getId(), city.getUuid(), city.getCreatedAt(), city.getUpdatedAt(), city.getName());
+    }
+
+    public static List<CityReadOnlyDTO> mapToCityReadOnlyDTOs(List<City> cities) {
+        return cities.stream().map(Mapper::mapToCityReadOnlyDTO).collect(Collectors.toList());
+    }
+
     public static User mapToUser(UserInsertDTO dto) {
         return new User(null, dto.getFirstname(), dto.getLastname(), dto.getUsername(), SecUtil.hashPassword(dto.getPassword()), true,
                 Role.valueOf(dto.getRole()));
