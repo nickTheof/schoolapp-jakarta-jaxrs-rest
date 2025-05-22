@@ -12,13 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @MappedSuperclass
 public abstract class AbstractPerson extends AbstractEntity{
-    public AbstractPerson(String firstname, String lastname, String vat, String email, String uuid, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        super(uuid, createdAt, updatedAt);
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.vat = vat;
-        this.email = email;
-    }
 
     @Column(nullable = false)
     private String firstname;
@@ -31,7 +24,5 @@ public abstract class AbstractPerson extends AbstractEntity{
 
     @Column(nullable = false, unique = true)
     private String email;
-
-
 
 }

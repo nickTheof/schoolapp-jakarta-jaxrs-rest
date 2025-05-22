@@ -10,11 +10,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Student extends AbstractPerson implements IdentifiableEntity{
 
-    public Student(String firstname, String lastname, String vat, String email, String uuid, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, City city) {
-        super(firstname, lastname, vat, email, uuid, createdAt, updatedAt);
+    public Student(Long id, String firstname, String lastname, String vat, String email , City city) {
+        super(firstname, lastname, vat, email);
         this.id = id;
         this.city = city;
     }

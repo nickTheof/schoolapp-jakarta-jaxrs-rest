@@ -15,6 +15,12 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class City extends AbstractEntity implements IdentifiableEntity{
+    public City(Integer id, String uuid, String name) {
+        super(uuid, null, null);
+        this.id = id;
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -61,11 +67,5 @@ public class City extends AbstractEntity implements IdentifiableEntity{
         if (student == null || students.isEmpty()) return;
         students.remove(student);
         student.setCity(null);
-    }
-
-    public City(Integer id, String name, String uuid, LocalDateTime createdAt, LocalDateTime updatedAt ) {
-        super(uuid, createdAt, updatedAt);
-        this.id = id;
-        this.name = name;
     }
 }

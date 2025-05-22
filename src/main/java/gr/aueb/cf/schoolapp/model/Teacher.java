@@ -9,13 +9,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "teachers")
 public class Teacher extends AbstractPerson implements IdentifiableEntity{
 
-    public Teacher(String firstname, String lastname, String vat, String email, String uuid, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, City city) {
-        super(firstname, lastname, vat, email, uuid, createdAt, updatedAt);
+    public Teacher(Long id, String firstname, String lastname, String vat, String email, City city) {
+        super(firstname, lastname, vat, email);
         this.id = id;
         this.city = city;
     }

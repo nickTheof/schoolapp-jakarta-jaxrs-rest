@@ -9,6 +9,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +19,7 @@ public abstract class AbstractEntity {
 
 
     @Column(unique = true, updatable = false, nullable = false)
-    private String uuid = UUID.randomUUID().toString();
+    private String uuid;
 
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
@@ -29,6 +30,7 @@ public abstract class AbstractEntity {
     @PrePersist
     protected void onPersist() {
         if (createdAt == null) createdAt = LocalDateTime.now();
+        if (uuid == null) uuid = UUID.randomUUID().toString();
         updatedAt = LocalDateTime.now();
     }
 
