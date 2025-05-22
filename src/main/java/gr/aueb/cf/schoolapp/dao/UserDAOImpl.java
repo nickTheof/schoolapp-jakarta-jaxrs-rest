@@ -8,6 +8,11 @@ import java.util.Optional;
 
 @ApplicationScoped
 public class UserDAOImpl extends AbstractDAO<User> implements IUserDAO {
+
+    public UserDAOImpl() {
+        this.setPersistenceClass(User.class);
+    }
+
     @Override
     public Optional<User> getByUsername(String username) {
         return getByField("username", username);
