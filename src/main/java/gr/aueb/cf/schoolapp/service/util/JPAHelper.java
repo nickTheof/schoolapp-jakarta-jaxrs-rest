@@ -20,7 +20,7 @@ public class JPAHelper {
 
     static {
         config.setJdbcUrl(System.getenv("SCHOOL7_DB_HOST") + ":" + System.getenv("SCHOOL7_DB_PORT") +
-                "/" + System.getenv("SCHOOL7_DB_DATABASE") + "?serverTimezone=UTC");
+                "/" + System.getenv("SCHOOL7_DB_STAGE_DATABASE") + "?serverTimezone=UTC");
         config.setUsername(System.getenv("SCHOOL7_DB_USERNAME"));
         config.setPassword(System.getenv("SCHOOL7_DB_PASSWORD"));
 
