@@ -150,6 +150,8 @@ public class StudentServiceImpl implements IStudentService{
                     + updateDTO.getUuid() + " not found"));
             Student student = Mapper.mapToStudent(updateDTO, city);
             student.setId(fetchedStudent.getId());
+            student.setVat(fetchedStudent.getVat());
+            student.setUuid(fetchedStudent.getUuid());
             Optional<Student> fetchByEmail = studentDAO.getByField("email", updateDTO.getEmail());
             if (fetchByEmail.isPresent() && !fetchByEmail.get().getUuid().equals(updateDTO.getUuid())) {
                 throw new EntityAlreadyExistsException("Student", "Student with email " + updateDTO.getEmail() + " already exists");
