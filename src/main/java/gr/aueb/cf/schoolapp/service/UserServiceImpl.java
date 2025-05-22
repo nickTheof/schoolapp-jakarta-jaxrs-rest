@@ -30,13 +30,13 @@ public class UserServiceImpl implements IUserService{
 
             UserReadOnlyDTO readOnlyDTO = userDAO.insert(user)
                     .map(Mapper::mapToUserReadOnlyDTO)
-                    .orElseThrow(() -> new AppServerException("User", "USer with username: " + dto.getUsername() + "not inserted"));
+                    .orElseThrow(() -> new AppServerException("User", "USer with username: " + dto.username() + "not inserted"));
             JPAHelper.commitTransaction();
-            LOGGER.info("User with username= {} inserted", dto.getUsername());
+            LOGGER.info("User with username= {} inserted", dto.username());
             return readOnlyDTO;
         } catch (AppServerException e) {
             JPAHelper.rollbackTransaction();
-            LOGGER.error("User with username={} not inserted.", dto.getUsername(), e);
+            LOGGER.error("User with username={} not inserted.", dto.username(), e);
             throw e;
         } finally {
             JPAHelper.closeEntityManager();

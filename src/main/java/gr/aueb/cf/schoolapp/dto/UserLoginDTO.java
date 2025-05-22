@@ -1,15 +1,8 @@
 package gr.aueb.cf.schoolapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+public record UserLoginDTO(
+        String username,
+        String password
+) { }
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class UserLoginDTO {
-    private String username;
-    private String password;
-}
+

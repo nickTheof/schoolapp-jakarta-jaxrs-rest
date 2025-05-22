@@ -8,6 +8,7 @@ import gr.aueb.cf.schoolapp.dto.CityReadOnlyDTO;
 import gr.aueb.cf.schoolapp.dto.CityUpdateDTO;
 import gr.aueb.cf.schoolapp.service.ICityService;
 import gr.aueb.cf.schoolapp.validator.ValidatorUtil;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -82,6 +83,7 @@ public class CityRestController {
         CityReadOnlyDTO readOnlyDTO = cityService.updateCity(updateDTO);
         return Response.status(Response.Status.OK).entity(readOnlyDTO).type(MediaType.APPLICATION_JSON_TYPE).build();
     }
+
 
     @DELETE
     @Path("/{cityUuid}")

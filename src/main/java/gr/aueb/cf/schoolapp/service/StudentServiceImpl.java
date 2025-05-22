@@ -114,19 +114,19 @@ public class StudentServiceImpl implements IStudentService{
     public StudentReadOnlyDTO insertStudent(StudentInsertDTO insertDTO) throws EntityAlreadyExistsException, EntityNotFoundException, EntityInvalidArgumentException {
         try {
             JPAHelper.startTransaction();
-            City city= cityDAO.getByField("uuid", insertDTO.getCityUuid()).orElseThrow(() -> new EntityNotFoundException("City", "City with uuid " + insertDTO.getCityUuid() + " was not found" ));
+            City city= cityDAO.getByField("uuid", insertDTO.cityUuid()).orElseThrow(() -> new EntityNotFoundException("City", "City with uuid " + insertDTO.cityUuid() + " was not found" ));
             Student student = Mapper.mapToStudent(insertDTO, city);
-            if (studentDAO.getByField("vat", insertDTO.getVat()).isPresent()) {
-                throw new EntityAlreadyExistsException("Student", "Student with vat: " + insertDTO.getVat() + " already exists");
+            if (studentDAO.getByField("vat", insertDTO.vat()).isPresent()) {
+                throw new EntityAlreadyExistsException("Student", "Student with vat: " + insertDTO.vat() + " already exists");
             }
 
-            if (studentDAO.getByField("email", insertDTO.getEmail()).isPresent()) {
-                throw new EntityAlreadyExistsException("Student", "Student with email: " + insertDTO.getEmail() + " already exists");
+            if (studentDAO.getByField("email", insertDTO.email()).isPresent()) {
+                throw new EntityAlreadyExistsException("Student", "Student with email: " + insertDTO.email() + " already exists");
             }
 
             StudentReadOnlyDTO readOnlyDTO = studentDAO.insert(student)
                     .map(Mapper::mapToStudentReadOnlyDTO)
-                    .orElseThrow(() -> new EntityInvalidArgumentException("Student", "Student with VAT=" + insertDTO.getVat() + " not inserted"));
+                    .orElseThrow(() -> new EntityInvalidArgumentException("Student", "Student with VAT=" + insertDTO.vat() + " not inserted"));
             JPAHelper.commitTransaction();
             LOGGER.info("Student with id={}, uuid={}, email={}, vat={},  firstname={}, lastname={} inserted",
                     student.getId(), student.getUuid(), student.getEmail(), student.getVat(), student.getLastname(), student.getFirstname());
@@ -134,7 +134,7 @@ public class StudentServiceImpl implements IStudentService{
         } catch (EntityInvalidArgumentException | EntityAlreadyExistsException | EntityNotFoundException e) {
             JPAHelper.rollbackTransaction();
             LOGGER.error("Failed to insert student vat={}, firstname={}, lastname={}, Reason={}",
-                    insertDTO.getVat(), insertDTO.getFirstname(), insertDTO.getLastname(), e.getCause(), e);
+                    insertDTO.vat(), insertDTO.firstname(), insertDTO.lastname(), e.getCause(), e);
             throw e;
         } finally {
             JPAHelper.closeEntityManager();
@@ -145,21 +145,21 @@ public class StudentServiceImpl implements IStudentService{
     public StudentReadOnlyDTO updateStudent(StudentUpdateDTO updateDTO) throws EntityNotFoundException, EntityAlreadyExistsException, EntityInvalidArgumentException {
         try {
             JPAHelper.startTransaction();
-            City city= cityDAO.getByField("uuid", updateDTO.getCityUuid()).orElseThrow(() -> new EntityNotFoundException("City", "City with uuid " + updateDTO.getCityUuid() + " was not found" ));
-            Student fetchedStudent = studentDAO.getByField("uuid", updateDTO.getUuid()).orElseThrow(() -> new EntityNotFoundException("Student", "Student with uuid: "
-                    + updateDTO.getUuid() + " not found"));
+            City city= cityDAO.getByField("uuid", updateDTO.cityUuid()).orElseThrow(() -> new EntityNotFoundException("City", "City with uuid " + updateDTO.cityUuid() + " was not found" ));
+            Student fetchedStudent = studentDAO.getByField("uuid", updateDTO.uuid()).orElseThrow(() -> new EntityNotFoundException("Student", "Student with uuid: "
+                    + updateDTO.uuid() + " not found"));
             Student student = Mapper.mapToStudent(updateDTO, city);
             student.setId(fetchedStudent.getId());
             student.setVat(fetchedStudent.getVat());
             student.setUuid(fetchedStudent.getUuid());
-            Optional<Student> fetchByEmail = studentDAO.getByField("email", updateDTO.getEmail());
-            if (fetchByEmail.isPresent() && !fetchByEmail.get().getUuid().equals(updateDTO.getUuid())) {
-                throw new EntityAlreadyExistsException("Student", "Student with email " + updateDTO.getEmail() + " already exists");
+            Optional<Student> fetchByEmail = studentDAO.getByField("email", updateDTO.email());
+            if (fetchByEmail.isPresent() && !fetchByEmail.get().getUuid().equals(updateDTO.uuid())) {
+                throw new EntityAlreadyExistsException("Student", "Student with email " + updateDTO.email() + " already exists");
             }
 
             StudentReadOnlyDTO readOnlyDTO = studentDAO.update(student)
                     .map(Mapper::mapToStudentReadOnlyDTO)
-                    .orElseThrow(() -> new EntityInvalidArgumentException("Student", "Student with uuid=" + updateDTO.getUuid() + " Error during update"));
+                    .orElseThrow(() -> new EntityInvalidArgumentException("Student", "Student with uuid=" + updateDTO.uuid() + " Error during update"));
 
             JPAHelper.commitTransaction();
             LOGGER.info("Student with id={}, uuid={}, email={}, vat={},  firstname={}, lastname={} updated",
@@ -168,7 +168,7 @@ public class StudentServiceImpl implements IStudentService{
         } catch (EntityNotFoundException | EntityInvalidArgumentException | EntityAlreadyExistsException e) {
             JPAHelper.rollbackTransaction();
             LOGGER.error("Failed to insert student uuid={}, firstname={}, lastname={}, Reason={}",
-                    updateDTO.getUuid(), updateDTO.getFirstname(), updateDTO.getLastname(), e.getCause(), e);
+                    updateDTO.uuid(), updateDTO.firstname(), updateDTO.lastname(), e.getCause(), e);
             throw e;
         } finally {
             JPAHelper.closeEntityManager();

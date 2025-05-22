@@ -4,7 +4,6 @@ import gr.aueb.cf.schoolapp.model.Teacher;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 
-import java.util.Optional;
 
 @ApplicationScoped
 public class TeacherDAOImpl extends AbstractDAO<Teacher> implements ITeacherDAO {

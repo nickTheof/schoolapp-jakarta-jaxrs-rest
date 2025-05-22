@@ -57,7 +57,7 @@ public class AuthRestController {
         }
 
         userReadOnlyDTO = userService.insertUser(userInsertDTO);
-        return Response.created(uriInfo.getAbsolutePathBuilder().path(userReadOnlyDTO.getId().toString()).build())
+        return Response.created(uriInfo.getAbsolutePathBuilder().path(userReadOnlyDTO.id().toString()).build())
                 .entity(userReadOnlyDTO).build();
     }
 
@@ -76,14 +76,14 @@ public class AuthRestController {
 
         if (principal != null) {
             String username = principal.getName();
-            if (loginDTO.getUsername().equals(username)) {
+            if (loginDTO.username().equals(username)) {
                 return Response.status(Response.Status.OK).entity("Already authenticated").build();
             }
         }
 
-        UserReadOnlyDTO userReadOnlyDTO = userService.getUserByUsername(loginDTO.getUsername());
-        String role = userReadOnlyDTO.getRole();
-        String token = jwtService.generateToken(loginDTO.getUsername(), role);
+        UserReadOnlyDTO userReadOnlyDTO = userService.getUserByUsername(loginDTO.username());
+        String role = userReadOnlyDTO.role();
+        String token = jwtService.generateToken(loginDTO.username(), role);
         AuthenticationResponseDTO authenticationResponseDTO = new AuthenticationResponseDTO(token);
         return Response.status(Response.Status.OK).entity(authenticationResponseDTO).build();
     }

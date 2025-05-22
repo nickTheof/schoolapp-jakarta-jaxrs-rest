@@ -6,11 +6,11 @@ import gr.aueb.cf.schoolapp.core.exceptions.EntityNotFoundException;
 import gr.aueb.cf.schoolapp.dto.CityInsertDTO;
 import gr.aueb.cf.schoolapp.dto.CityReadOnlyDTO;
 import gr.aueb.cf.schoolapp.dto.CityUpdateDTO;
-import gr.aueb.cf.schoolapp.model.City;
+
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 
 public interface ICityService {
     List<CityReadOnlyDTO> getAllCities();

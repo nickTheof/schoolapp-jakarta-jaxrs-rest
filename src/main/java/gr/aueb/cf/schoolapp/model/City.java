@@ -3,7 +3,6 @@ package gr.aueb.cf.schoolapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

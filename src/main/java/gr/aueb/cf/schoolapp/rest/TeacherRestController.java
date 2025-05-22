@@ -51,7 +51,7 @@ public class TeacherRestController {
         TeacherReadOnlyDTO readOnlyDTO = teacherService.insertTeacher(insertDTO);
         URI uri = uriInfo
                 .getAbsolutePathBuilder()
-                .path(String.valueOf(readOnlyDTO.getUuid()))
+                .path(String.valueOf(readOnlyDTO.uuid()))
                 .build();
 
         return Response
@@ -78,7 +78,7 @@ public class TeacherRestController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateTeacher(@PathParam("teacherUuid") String uuid, TeacherUpdateDTO updateDTO) throws EntityInvalidArgumentException, EntityAlreadyExistsException, EntityNotFoundException {
-        if (!uuid.equals(updateDTO.getUuid())) throw new EntityInvalidArgumentException("Teacher", "Different uuid info in path and body");
+        if (!uuid.equals(updateDTO.uuid())) throw new EntityInvalidArgumentException("Teacher", "Different uuid info in path and body");
         List<String> errors = ValidatorUtil.validateDTO(updateDTO);
         if (!errors.isEmpty()) {
             throw new EntityInvalidArgumentException("Teacher", String.join("\n", errors));

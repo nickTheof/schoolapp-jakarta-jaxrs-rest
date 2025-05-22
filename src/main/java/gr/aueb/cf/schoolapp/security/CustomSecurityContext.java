@@ -22,7 +22,9 @@ public class CustomSecurityContext implements SecurityContext {
 
     @Override
     public boolean isUserInRole(String role) {
-        return user.getRole().name().equals(role);
+        return user != null
+                && user.getRole() != null
+                && user.getRole().name().equalsIgnoreCase(role);
     }
 
     @Override

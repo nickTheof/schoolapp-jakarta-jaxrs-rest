@@ -20,11 +20,11 @@ public class UserInputValidator {
     public static <T extends UserInsertDTO> Map<String , String> validate(T dto) {
         Map<String , String > errors = new HashMap<>();
 
-        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+        if (!dto.password().equals(dto.confirmPassword())) {
             errors.put("confirmPassword", "Το password και το confirmedPassword δεν είναι ίδια");
         }
 
-        if (userService.isEmailExists(dto.getUsername())) {
+        if (userService.isEmailExists(dto.username())) {
             errors.put("username", "Το e-mail/username υπάρχει ήδη");
         }
 

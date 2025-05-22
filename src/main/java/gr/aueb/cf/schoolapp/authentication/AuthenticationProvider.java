@@ -12,7 +12,7 @@ public class AuthenticationProvider {
     private final IUserService userService;
 
     public boolean authenticate(UserLoginDTO loginDTO) {
-        return userService.isUserValid(loginDTO.getUsername(), loginDTO.getPassword());
+        return userService.isUserValid(loginDTO.username(), loginDTO.password());
     }
 
 }
