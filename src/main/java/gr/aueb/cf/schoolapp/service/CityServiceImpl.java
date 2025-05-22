@@ -103,14 +103,18 @@ public class CityServiceImpl implements ICityService{
     }
 
     @Override
-    public void deleteCity(String uuid) throws EntityNotFoundException {
+    public void deleteCity(String uuid) throws EntityNotFoundException, EntityInvalidArgumentException {
         try{
             JPAHelper.startTransaction();
-            cityDAO.getByField("uuid", uuid).orElseThrow(() -> new EntityNotFoundException("City", "City with uuid " +uuid + " was not found"));
+            Optional<City> cityToDelete = cityDAO.getByField("uuid", uuid);
+            if (cityToDelete.isEmpty()) throw new EntityNotFoundException("City", "City with uuid " +uuid + " was not found");
+            if (!cityToDelete.get().getAllStudents().isEmpty() || !cityToDelete.get().getAllTeachers().isEmpty()) {
+                throw new EntityInvalidArgumentException("City", "Error in delete city. Foreign key constraints in Teacher or Student models");
+            }
             cityDAO.deleteByUuid(uuid);
             JPAHelper.commitTransaction();
             LOGGER.info("Teacher with uuid={} was deleted.", uuid);
-        } catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException | EntityInvalidArgumentException e) {
             JPAHelper.rollbackTransaction();
             LOGGER.error("Teacher with uuid={} was not deleted", uuid, e);
             throw e;

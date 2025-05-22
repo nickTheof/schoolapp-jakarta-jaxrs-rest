@@ -17,7 +17,7 @@ public interface ICityService {
     CityReadOnlyDTO insertCity(CityInsertDTO insertDTO) throws EntityAlreadyExistsException, EntityInvalidArgumentException;
     CityReadOnlyDTO updateCity(CityUpdateDTO updateDTO) throws EntityNotFoundException, EntityInvalidArgumentException, EntityAlreadyExistsException;
     void deleteCity(Integer id) throws EntityNotFoundException;
-    void deleteCity(String uuid) throws EntityNotFoundException;
+    void deleteCity(String uuid) throws EntityNotFoundException, EntityInvalidArgumentException;
     CityReadOnlyDTO getCityById(Integer id) throws EntityNotFoundException;
     CityReadOnlyDTO getCityByUuid(String uuid) throws EntityNotFoundException;
     long getCitiesCountByCriteria(Map<String, Object> criteria);

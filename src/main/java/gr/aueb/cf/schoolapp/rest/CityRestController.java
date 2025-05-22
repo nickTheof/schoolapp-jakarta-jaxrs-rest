@@ -86,7 +86,7 @@ public class CityRestController {
     @DELETE
     @Path("/{cityUuid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteCity(@PathParam("cityUuid") String uuid) throws EntityNotFoundException {
+    public Response deleteCity(@PathParam("cityUuid") String uuid) throws EntityNotFoundException, EntityInvalidArgumentException {
         CityReadOnlyDTO readOnlyDTO = cityService.getCityByUuid(uuid);
         cityService.deleteCity(uuid);
         return Response
