@@ -39,18 +39,14 @@ public class JwtAuthenticationFilter implements ContainerRequestFilter {
 
         UriInfo uriInfo = requestContext.getUriInfo();
 
-        // if we have /api/auth/register
-        // getPath() will return auth/register
         String path = uriInfo.getPath();
         if (isPublicPath(path)) {
             return;
         }
-//        try {
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             LOGGER.warn("Missing or invalid Authorization header");
             throw new NotAuthorizedException("User", "Authorization header must be provided");
-//                throw new EntityNotAuthorizedException("User", "Authorization header must be provided");
         }
 
         String token = authorizationHeader.substring("Bearer ".length()).trim();
@@ -62,32 +58,12 @@ public class JwtAuthenticationFilter implements ContainerRequestFilter {
                 if (user != null && jwtService.isTokenValid(token, user)) {
                     requestContext.setSecurityContext(new CustomSecurityContext(user));
                 } else {
-//                    System.out.println("Token is not valid" + requestContext.getUriInfo());
                     throw new NotAuthorizedException("User", "User or token invalid");
                 }
             }
-//            String username = jwtService.extractSubject(token);
-//            if (username == null) {
-//                LOGGER.warn("Invalid token - no subject");
-//                throw new EntityNotAuthorizedException("User", "Invalid token");
-//            }
-//
-//            if (securityContext == null || securityContext.getUserPrincipal() == null) {
-//                User user = userDAO.getByUsername(username)
-//                        .orElseThrow(() -> {
-//                            LOGGER.warn("User not found {}", username);
-//                            return new EntityNotAuthorizedException("User", "Invalid credentials");
-//                        });
-//
-//                if (!jwtService.isTokenValid(token, user)) {
-//                    LOGGER.warn("Invalid token for user {}",  username);
-//                    throw new EntityNotAuthorizedException("User", "Invalid token");
-//                }
-//
-//                requestContext.setSecurityContext(new CustomSecurityContext(user));
-//            }
         } catch (Exception e) {
             LOGGER.error("JWT validation failed", e);
+            throw new NotAuthorizedException("User", "User or token invalid");
         }
     }
 
