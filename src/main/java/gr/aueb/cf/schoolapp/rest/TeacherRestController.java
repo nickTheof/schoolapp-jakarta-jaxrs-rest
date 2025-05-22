@@ -10,11 +10,14 @@ import gr.aueb.cf.schoolapp.validator.ValidatorUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import lombok.RequiredArgsConstructor;
 
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -40,14 +43,19 @@ public class TeacherRestController {
     @Path("")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response insertTeacher(TeacherInsertDTO insertDTO) throws EntityInvalidArgumentException, EntityAlreadyExistsException, EntityNotFoundException {
+    public Response insertTeacher(TeacherInsertDTO insertDTO, @Context UriInfo uriInfo) throws EntityInvalidArgumentException, EntityAlreadyExistsException, EntityNotFoundException {
         List<String> errors = ValidatorUtil.validateDTO(insertDTO);
         if (!errors.isEmpty()) {
             throw new EntityInvalidArgumentException("Teacher", String.join("\n", errors));
         }
         TeacherReadOnlyDTO readOnlyDTO = teacherService.insertTeacher(insertDTO);
+        URI uri = uriInfo
+                .getAbsolutePathBuilder()
+                .path(String.valueOf(readOnlyDTO.getUuid()))
+                .build();
+
         return Response
-                .status(Response.Status.OK)
+                .created(uri)
                 .entity(readOnlyDTO)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .build();
