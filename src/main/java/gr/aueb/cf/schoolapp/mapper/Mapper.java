@@ -16,15 +16,15 @@ public class Mapper {
     }
 
     public static Teacher mapToTeacher(TeacherInsertDTO dto, City city) {
-        return new Teacher(dto.getFirstname(), dto.getLastname(), dto.getVat(), dto.getEmail(), null, null, null, null, city);
+        return new Teacher(null, dto.getFirstname(), dto.getLastname(), dto.getVat(), dto.getEmail(), city);
     }
 
     public static Teacher mapToTeacher(TeacherUpdateDTO dto, City city) {
-        return new Teacher(dto.getFirstname(), dto.getLastname(), dto.getVat(), dto.getEmail(), null, null, null, dto.getId(), city);
+        return new Teacher(null, dto.getFirstname(), dto.getLastname(), null, dto.getEmail(), city);
     }
 
     public static TeacherReadOnlyDTO mapToTeacherReadOnlyDTO(Teacher teacher) {
-        return new TeacherReadOnlyDTO(teacher.getId(), teacher.getUuid(), teacher.getCreatedAt(), teacher.getUpdatedAt(), teacher.getFirstname(), teacher.getLastname(), teacher.getVat(), teacher.getEmail(), teacher.getCity().getId());
+        return new TeacherReadOnlyDTO(teacher.getId(), teacher.getUuid(), teacher.getFirstname(), teacher.getLastname(), teacher.getVat(), teacher.getEmail(), teacher.getCity().getUuid());
     }
 
     public static List<TeacherReadOnlyDTO> teachersToReadOnlyDTOs(List<Teacher> teachers) {
@@ -34,15 +34,15 @@ public class Mapper {
     }
 
     public static Student mapToStudent(StudentInsertDTO dto, City city) {
-        return new Student(dto.getFirstname(), dto.getLastname(), dto.getVat(), dto.getEmail(), null, null, null, null, city);
+        return new Student(null, dto.getFirstname(), dto.getLastname(), dto.getVat(), dto.getEmail(), city);
     }
 
     public static Student mapToStudent(StudentUpdateDTO dto, City city) {
-        return new Student(dto.getFirstname(), dto.getLastname(), dto.getVat(), dto.getEmail(), null, null, null, dto.getId(), city);
+        return new Student(null, dto.getFirstname(), dto.getLastname(), null, dto.getEmail(), city);
     }
 
     public static StudentReadOnlyDTO mapToStudentReadOnlyDTO(Student student) {
-        return new StudentReadOnlyDTO(student.getId(), student.getUuid(), student.getCreatedAt(), student.getUpdatedAt(), student.getFirstname(), student.getLastname(), student.getVat(), student.getEmail(), student.getCity().getId());
+        return new StudentReadOnlyDTO(student.getId(), student.getUuid(), student.getFirstname(), student.getLastname(), student.getVat(), student.getEmail(), student.getCity().getUuid());
     }
 
     public static List<StudentReadOnlyDTO> studentsToReadOnlyDTOs(List<Student> students) {
@@ -77,21 +77,17 @@ public class Mapper {
         return filters;
     }
 
-    public static City mapToCity(CityReadOnlyDTO readOnlyDTO) {
-        return new City(readOnlyDTO.id(), readOnlyDTO.name(), readOnlyDTO.uuid(), readOnlyDTO.createdAt(), readOnlyDTO.updatedAt());
-    }
-
     public static City mapToCity(CityInsertDTO insertDTO) {
-        return new City(null, insertDTO.name(), null, null, null);
+        return new City(null, null, insertDTO.name());
     }
 
     public static City mapToCity(CityUpdateDTO updateDTO) {
-        return new City(updateDTO.id(), updateDTO.name(), null, null, null);
+        return new City(null, updateDTO.uuid(), updateDTO.name());
     }
 
 
     public static CityReadOnlyDTO mapToCityReadOnlyDTO(City city) {
-        return new CityReadOnlyDTO(city.getId(), city.getUuid(), city.getCreatedAt(), city.getUpdatedAt(), city.getName());
+        return new CityReadOnlyDTO(city.getId(), city.getUuid(), city.getName());
     }
 
     public static List<CityReadOnlyDTO> mapToCityReadOnlyDTOs(List<City> cities) {
