@@ -15,8 +15,9 @@ import java.util.Optional;
 public interface ICityService {
     List<CityReadOnlyDTO> getAllCities();
     CityReadOnlyDTO insertCity(CityInsertDTO insertDTO) throws EntityAlreadyExistsException, EntityInvalidArgumentException;
-    CityReadOnlyDTO updateCity(CityUpdateDTO updateDTO) throws EntityNotFoundException, EntityInvalidArgumentException;
+    CityReadOnlyDTO updateCity(CityUpdateDTO updateDTO) throws EntityNotFoundException, EntityInvalidArgumentException, EntityAlreadyExistsException;
     void deleteCity(Integer id) throws EntityNotFoundException;
+    void deleteCity(String uuid) throws EntityNotFoundException;
     CityReadOnlyDTO getCityById(Integer id) throws EntityNotFoundException;
     CityReadOnlyDTO getCityByUuid(String uuid) throws EntityNotFoundException;
     long getCitiesCountByCriteria(Map<String, Object> criteria);

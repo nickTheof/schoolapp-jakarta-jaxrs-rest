@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @ApplicationScoped
 @RequiredArgsConstructor(onConstructor_ = @__(@Inject))
@@ -61,17 +62,22 @@ public class CityServiceImpl implements ICityService{
     }
 
     @Override
-    public CityReadOnlyDTO updateCity(CityUpdateDTO updateDTO) throws EntityNotFoundException, EntityInvalidArgumentException {
+    public CityReadOnlyDTO updateCity(CityUpdateDTO updateDTO) throws EntityNotFoundException, EntityInvalidArgumentException, EntityAlreadyExistsException {
         try {
             JPAHelper.startTransaction();
             City toUpdate = Mapper.mapToCity(updateDTO);
-            cityDAO.getById(toUpdate.getId()).orElseThrow(() -> new EntityNotFoundException("City", "City with id " + toUpdate.getId() + " was not found"));
-            CityReadOnlyDTO readOnlyDTO = cityDAO.update(toUpdate).map(Mapper::mapToCityReadOnlyDTO).orElseThrow(() -> new EntityInvalidArgumentException("City", "City with id " + toUpdate.getId() + " was not updated. Error during update"));
+            City fetchByUuid = cityDAO.getByField("uuid", toUpdate.getUuid()).orElseThrow(() -> new EntityNotFoundException("City", "City with uuid " + toUpdate.getUuid() + " was not found"));
+            Optional<City> fetchCity = cityDAO.getByField("name", toUpdate.getName());
+            if (fetchCity.isPresent() && !fetchCity.get().getUuid().equals(toUpdate.getUuid())){
+                throw new EntityAlreadyExistsException("City", "City with name " + toUpdate.getName() + " already exists");
+            }
+            toUpdate.setId(fetchByUuid.getId());
+            CityReadOnlyDTO readOnlyDTO = cityDAO.update(toUpdate).map(Mapper::mapToCityReadOnlyDTO).orElseThrow(() -> new EntityInvalidArgumentException("City", "City with uuid " + toUpdate.getUuid() + " was not updated. Error during update"));
             JPAHelper.commitTransaction();
-            LOGGER.info("City with id={}, name={} updated successfully", readOnlyDTO.id(), readOnlyDTO.name());
+            LOGGER.info("City with uuid={}, name={} updated successfully", readOnlyDTO.uuid(), readOnlyDTO.name());
             return readOnlyDTO;
-        } catch (EntityNotFoundException | EntityInvalidArgumentException e) {
-            LOGGER.warn("Update error. City with id={} was not updated", updateDTO.id(), e);
+        } catch (EntityNotFoundException | EntityInvalidArgumentException | EntityAlreadyExistsException e) {
+            LOGGER.warn("Update error. City with uuid={} was not updated", updateDTO.uuid(), e);
             JPAHelper.rollbackTransaction();
             throw e;
         } finally {
@@ -90,6 +96,23 @@ public class CityServiceImpl implements ICityService{
         } catch (EntityNotFoundException e) {
             JPAHelper.rollbackTransaction();
             LOGGER.error("Teacher with id={} was not deleted", id, e);
+            throw e;
+        } finally {
+            JPAHelper.closeEntityManager();
+        }
+    }
+
+    @Override
+    public void deleteCity(String uuid) throws EntityNotFoundException {
+        try{
+            JPAHelper.startTransaction();
+            cityDAO.getByField("uuid", uuid).orElseThrow(() -> new EntityNotFoundException("City", "City with uuid " +uuid + " was not found"));
+            cityDAO.deleteByUuid(uuid);
+            JPAHelper.commitTransaction();
+            LOGGER.info("Teacher with uuid={} was deleted.", uuid);
+        } catch (EntityNotFoundException e) {
+            JPAHelper.rollbackTransaction();
+            LOGGER.error("Teacher with uuid={} was not deleted", uuid, e);
             throw e;
         } finally {
             JPAHelper.closeEntityManager();
