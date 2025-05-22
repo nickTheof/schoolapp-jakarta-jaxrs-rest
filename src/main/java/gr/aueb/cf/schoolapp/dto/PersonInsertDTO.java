@@ -28,7 +28,7 @@ public abstract class PersonInsertDTO {
         private String email;
 
         @NotNull(message = "Η πόλη είναι υποχρεωτικό πεδίο.")
-        private Integer city_id;
+        private String cityUuid;
 }
 
 
